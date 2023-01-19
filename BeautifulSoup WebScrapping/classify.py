@@ -1,5 +1,5 @@
 
-import pandas as pd
+import pandas as pd, csv
 
 link = 'https://en.wikipedia.org/wiki/Mobile_telephone_numbering_in_India'
 pairs = {
@@ -23,13 +23,17 @@ save_tables(1)
 
 
 def readcsv():
+    with open('OUTPUT.csv', 'r') as f:
+        reader = csv.reader(f, delimiter=',')
+        data = list(reader)
+        row_count = len(data)
+
     print('Index, Series, Operator, Circle	')
     print('-'*40)
-
     csv_phno = pd.read_csv('sample phno.csv')
     file = open('OUTPUT.csv', 'a')
 
-    for k in range(len(csv_phno.index)):
+    for k in range(row_count+1, len(csv_phno.index)):
         phno = str(csv_phno.iloc[k,0])
         csvFile = pd.read_csv(f'data/{pairs[12 - int(phno[0])]}.csv')
 
@@ -40,8 +44,13 @@ def readcsv():
                     try:
                         if int(phno[:4]) == int(csvFile.iloc[i, :][j]):
                             file.write(f'{csv_phno.iloc[k,0]}, {csvFile.iloc[i, :][j+1]}, {csvFile.iloc[i, :][j+2]}' + '\n')
-                            print(f'{k}/{len(csv_phno.index)}, {int(csvFile.iloc[i, :][j])} {phno[4:]}, {csvFile.iloc[i, :][j+1]}, {csvFile.iloc[i, :][j+2]}')
+                            print(f'{k} / {len(csv_phno.index)}, {int(csvFile.iloc[i, :][j])} {phno[4:]}, {csvFile.iloc[i, :][j+1]}, {csvFile.iloc[i, :][j+2]}')
                     except:
                         pass
     file.close()
-readcsv()
+
+while 1:
+    try:
+        readcsv()
+    except Exception as e:
+        print(e)

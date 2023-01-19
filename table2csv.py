@@ -7,12 +7,12 @@ def automatetab():
     driver = webdriver.Chrome()
     driver.get('https://up-rera.in/agents')
 
-    with open('output.txt', 'r') as f:
+    with open('output.csv', 'r') as f:
         reader = csv.reader(f, delimiter=',')
         data = list(reader)
         row_count = len(data)
 
-    file = open(f'output.txt', 'a')
+    file = open(f'output.csv', 'a')
     for i in range(row_count, 5778):
         if i < 10:
             i = f'0{i}'
@@ -34,7 +34,6 @@ def automatetab():
             except:
                 pass
 
-        print(mylst)
         if i=='2':
             file.write(', '.join(mylst[::2])+'\n')
         else:
@@ -42,4 +41,9 @@ def automatetab():
         driver.switch_to.window(driver.window_handles[0])
     file.close()
 
-automatetab()
+while 1:
+    try:
+        automatetab()
+    except:
+        pass
+

@@ -6,6 +6,7 @@ try:
 except:
     pass
 
+
 class filter_series:
     link = 'https://en.wikipedia.org/wiki/Mobile_telephone_numbering_in_India'
     pairs = {
@@ -17,6 +18,7 @@ class filter_series:
         6 : '6 series'
     }
     print('\n', pairs, '\n')
+
 
     def info_tables(self, i,p=1,d=0):
         df = pd.read_html(self.link)[i]
@@ -95,13 +97,7 @@ class filter_series:
 
 
 obj = filter_series()
-try:
-    obj.info_tables(0,1,0)
-except:
-    obj.info_tables(0,1,1)
-try:
-    obj.info_tables(1,1,0)
-except:
-    obj.info_tables(1,1,1)
+obj.info_tables(0,1,0)
+obj.info_tables(1,1,0)
 obj.readcsv()
 obj.filter()
